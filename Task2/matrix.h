@@ -12,10 +12,12 @@ namespace solution {
     template<class T>
     class matrix {
     private:
+        using row_type = std::vector<T>;
+
         int _rows = 0;
         int _columns = 0;
 
-        std::vector<std::vector<T>> _elements;
+        std::vector<row_type> _elements;
 
     public:
         matrix() = delete;
@@ -28,7 +30,31 @@ namespace solution {
             }
         }
 
+        matrix(std::vector<row_type> && rows) {
+            std::swap(_elements, rows);
+            _rows = _elements.size();
+            _columns = _rows > 0 ? _elements[0].size() : 0;
+        }
+
+        int getRows() const
+        {
+            return _rows;
+        }
+
+        int getColumns() const
+        {
+            return _columns;
+        }
+
         std::vector<T> &operator[](int row) {
+            if (row < 0 || row >= _rows) {
+                throw std::out_of_range("Index out of range!");
+            }
+
+            return _elements[row];
+        }
+
+        const std::vector<T> &operator[](int row) const {
             if (row < 0 || row >= _rows) {
                 throw std::out_of_range("Index out of range!");
             }
