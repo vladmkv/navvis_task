@@ -30,19 +30,17 @@ namespace solution {
             }
         }
 
-        matrix(std::vector<row_type> && rows) {
+        matrix(std::vector<row_type> &&rows) {
             std::swap(_elements, rows);
             _rows = _elements.size();
             _columns = _rows > 0 ? _elements[0].size() : 0;
         }
 
-        int getRows() const
-        {
+        int getRows() const {
             return _rows;
         }
 
-        int getColumns() const
-        {
+        int getColumns() const {
             return _columns;
         }
 

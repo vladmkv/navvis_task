@@ -12,17 +12,15 @@ namespace solution {
     class matrix_processor {
     private:
         // Interpolation value for out-of-boundary cells
-        const int INTERPOLATE_DEFAULT_VALUE = 0;
+        const int INTERPOLATE_DEFAULT_VALUE = 10;
 
-        bool isZero(int x)
-        {
+        bool isZero(int x) {
             return x == 0;
         }
 
         template<class T>
         T get(const matrix<T> &m, int row, int column) {
-            if (row < 0 || row >= m.getRows() || column < 0 || column >= m.getColumns())
-            {
+            if (row < 0 || row >= m.getRows() || column < 0 || column >= m.getColumns()) {
                 return static_cast<T>(INTERPOLATE_DEFAULT_VALUE);
             }
 
@@ -40,8 +38,7 @@ namespace solution {
 
         template<class T>
         void visitor(matrix<T> &m, int row, int column) {
-            if (isZero(m[row][column]))
-            {
+            if (isZero(m[row][column])) {
                 m[row][column] = interpolate(m, row, column);
             }
         }
