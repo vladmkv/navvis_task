@@ -22,11 +22,7 @@ namespace solution {
     public:
         matrix(const matrix &) = delete;
 
-        matrix() : matrix(0, 0) {}
-
-        matrix(int rows, int columns) {
-            resize(rows, columns);
-        }
+        matrix() = default;
 
         matrix(std::vector<row_type> &&rows) {
             std::swap(_elements, rows);
@@ -44,14 +40,15 @@ namespace solution {
 
         void resize(int rows, int columns) {
             _columns = columns;
+            _rows = 0;
             _elements.clear();
 
             for (int i = 0; i < rows; ++i) {
-                add_row();
+                addRow();
             }
         }
 
-        void add_row() {
+        void addRow() {
             _elements.push_back(std::vector<T>(_columns));
             ++_rows;
         }
@@ -70,6 +67,10 @@ namespace solution {
             }
 
             return _elements[row];
+        }
+
+        bool operator==(const matrix<T> &other) const {
+            return _elements == other._elements;
         }
     };
 

@@ -47,8 +47,7 @@ namespace solution {
 
             int row = 0, column = 0;
 
-            while(!is.eof())
-            {
+            while (!is.eof()) {
                 std::string line;
                 std::getline(is, line);
                 std::vector<T> current_row;
@@ -56,35 +55,35 @@ namespace solution {
                 // Parse input line into a T vector of unknown size.
                 auto itStart = line.cbegin();
                 auto itEnd = itStart;
-                while (itStart != line.end())
-                {
+                while (itStart != line.end()) {
+                    // Find next delimiter or EOL.
                     itEnd = std::find(itStart, line.cend(), SEPARATOR);
                     std::istringstream iss(std::string(itStart, itEnd));
 
                     T value;
                     iss >> value;
-                    itStart = itEnd;
+
+                    // Set start for next delimiter search.
+                    itStart = itEnd == line.end() ? itEnd : itEnd + 1;
 
                     current_row.push_back(value);
                 }
 
-                if (m.getRows() == 0)
-                {
+                if (m.getRows() == 0) {
                     // Initialize matrix first row.
                     m.resize(1, current_row.size());
+                } else {
+                    m.addRow();
                 }
 
-                if (current_row.size() != m[0].size())
-                {
-                    throw std::logic_error("Row length inconsistent");
+                if (current_row.size() != m.getColumns()) {
+                    throw std::logic_error("Columns amount inconsistent");
                 }
 
                 // Copy valid values to a new row of the matrix.
-                m.add_row();
                 column = 0;
 
-                for(auto value : current_row)
-                {
+                for (auto value: current_row) {
                     m[row][column++] = value;
                 }
 
