@@ -3,4 +3,4 @@ project(Task2)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Task2 main.cpp matrix.h matrix_processor.h)
+add_executable(Task2 main.cpp matrix.h matrix_processor.h matrix_io.h)

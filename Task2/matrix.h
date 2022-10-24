@@ -20,14 +20,12 @@ namespace solution {
         std::vector<row_type> _elements;
 
     public:
-        matrix() = delete;
-
         matrix(const matrix &) = delete;
 
-        matrix(int rows, int columns) : _rows(rows), _columns(columns) {
-            for (int i = 0; i < _rows; ++i) {
-                _elements.push_back(std::vector<T>(_columns));
-            }
+        matrix() : matrix(0, 0) {}
+
+        matrix(int rows, int columns) {
+            resize(rows, columns);
         }
 
         matrix(std::vector<row_type> &&rows) {
@@ -42,6 +40,20 @@ namespace solution {
 
         int getColumns() const {
             return _columns;
+        }
+
+        void resize(int rows, int columns) {
+            _columns = columns;
+            _elements.clear();
+
+            for (int i = 0; i < rows; ++i) {
+                add_row();
+            }
+        }
+
+        void add_row() {
+            _elements.push_back(std::vector<T>(_columns));
+            ++_rows;
         }
 
         std::vector<T> &operator[](int row) {
