@@ -100,8 +100,8 @@ namespace solution {
             return parseFromCsvStream(is, m);
         }
 
-        template<class T, char sep = ' '>
-        matrix<T> load(const std::string &file_name) {
+        template<class T>
+        matrix<T> load(const std::string &file_name, const char separator) {
             std::ifstream file(file_name);
 
             if (!file.is_open()) {
@@ -109,14 +109,14 @@ namespace solution {
             }
 
             matrix<T> m;
-            parseFromCsvStream(file, m, sep);
+            parseFromCsvStream(file, m, separator);
             return std::move(m);
         }
 
-        template<class T, char sep = ' '>
-        void save(const std::string &file_name, const matrix<T> &m) {
+        template<class T>
+        void save(const std::string &file_name, const matrix<T> &m, const char separator) {
             std::ofstream file(file_name);
-            writeToCsvStream(file, m, sep);
+            writeToCsvStream(file, m, separator);
         }
     };
 
