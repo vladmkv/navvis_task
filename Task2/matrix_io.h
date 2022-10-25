@@ -44,7 +44,7 @@ namespace solution {
                 std::getline(is, line);
 
                 if (!line.length()) {
-                    throw std::logic_error("Empty line");
+                    continue;
                 }
 
                 std::vector<std::string> line_items;
@@ -103,9 +103,14 @@ namespace solution {
         template<class T, char sep = ' '>
         matrix<T> load(const std::string &file_name) {
             std::ifstream file(file_name);
+
+            if (!file.is_open()) {
+                throw std::logic_error("Cannot open input file " + file_name);
+            }
+
             matrix<T> m;
             parseFromCsvStream(file, m, sep);
-            return m;
+            return std::move(m);
         }
 
         template<class T, char sep = ' '>

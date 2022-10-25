@@ -95,16 +95,30 @@ void run_tests() {
         assert(m[0][0] == 0.5);
     }
 
-    // File I/O
+    // File I/O -- ints + spaces
     {
-        auto m = load<int, ' '>("../input1.csv");
+        auto m = load<int, ' '>("input1.csv");
         assert(m[1][1] == 0);
 
         p.process(m);
         assert(m[1][1] == 5);
 
-        auto output_file = "../output1.csv";
+        auto output_file = "output1.csv";
         save(output_file, m);
+        ifstream f(output_file);
+        assert(f.good());
+    }
+
+    // File I/O -- floats + commas
+    {
+        auto m = load<float, ','>("input2.csv");
+        assert(m[1][1] == 0);
+
+        p.process(m);
+        assert(m[1][1] == 1.5);
+
+        auto output_file = "output2.csv";
+        save<float, ','>(output_file, m);
         ifstream f(output_file);
         assert(f.good());
     }

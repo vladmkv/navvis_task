@@ -20,11 +20,11 @@ namespace solution {
         std::vector<row_type> _elements;
 
     public:
-        matrix(const matrix &) = delete;
-
         matrix() = default;
 
-        matrix(matrix && m) = default;
+        matrix(matrix &&m) = default;
+
+        matrix(const matrix &) = delete;
 
         // Allows uniform initialization
         matrix(std::vector<row_type> &&rows) {
