@@ -17,14 +17,6 @@ namespace solution {
         const char SEPARATOR = ' ';
 
         template<class T>
-        std::ostream &operator<<(std::ostream &os, const std::vector<T> &v) {
-            for (auto item: v) {
-                os << item;
-            }
-            return os;
-        }
-
-        template<class T>
         std::ostream &operator<<(std::ostream &os, const matrix<T> &m) {
             for (int row = 0; row < m.getRows(); row++) {
                 for (int column = 0; column < m.getColumns(); column++) {
@@ -50,24 +42,24 @@ namespace solution {
             while (!is.eof()) {
                 std::string line;
                 std::getline(is, line);
-                std::vector<T> current_row;
 
-                // Parse input line into a T vector of unknown size.
-                auto itStart = line.cbegin();
-                auto itEnd = itStart;
-                while (itStart != line.end()) {
-                    // Find next delimiter or EOL.
-                    itEnd = std::find(itStart, line.cend(), SEPARATOR);
-                    std::istringstream iss(std::string(itStart, itEnd));
-
-                    T value;
-                    iss >> value;
-
-                    // Set start for next delimiter search.
-                    itStart = itEnd == line.end() ? itEnd : itEnd + 1;
-
-                    current_row.push_back(value);
+                std::vector<std::string> line_items;
+                std::istringstream iss_line(line);
+                while (!iss_line.eof()) {
+                    std::string item;
+                    std::getline(iss_line, item, SEPARATOR);
+                    line_items.push_back(item);
                 }
+
+                // Parse individual strings to T
+                std::vector<T> current_row;
+                std::transform(line_items.begin(), line_items.end(), std::back_inserter(current_row),
+                               [](std::string s) {
+                                   T value;
+                                   std::istringstream iss(s);
+                                   iss >> value;
+                                   return value;
+                               });
 
                 if (m.getRows() == 0) {
                     // Initialize matrix first row.
