@@ -63,19 +63,19 @@ void run_tests() {
         assert(oss.str() == "1,2\n");
     }
 
-    // Float datatype
+    // Double datatype
     {
-        matrix<float> m;
+        matrix<double> m;
         auto iss = istringstream("3.1415 2");
         iss >> m;
-        assert(m == matrix<float>({{3.1415, 2}}));
+        assert(m == matrix<double>({{3.1415, 2}}));
 
         ostringstream oss;
         oss << m;
         assert(oss.str() == "3.1415 2\n");
     }
 
-    // Double datatype
+    // Double datatype with comma
     {
         matrix<double> m;
         auto iss = istringstream("3.1415,2");
@@ -90,7 +90,7 @@ void run_tests() {
     // Processing
     matrix_processor p;
     {
-        matrix<float> m({{0, 1},
+        matrix<double> m({{0, 1},
                          {1, 1}});
         p.process(m);
 
@@ -112,16 +112,16 @@ void run_tests() {
         assert(f.good());
     }
 
-    // File I/O -- floats + commas
+    // File I/O -- doubles + commas
     {
-        auto m = load<float>("input2.csv", SEPARATOR_COMMA);
+        auto m = load<double>("input2.csv", SEPARATOR_COMMA);
         assert(m[1][1] == 0);
 
         p.process(m);
         assert(m[1][1] == 1.5);
 
         auto output_file = "output2.csv";
-        save<float>(output_file, m, SEPARATOR_COMMA);
+        save<double>(output_file, m, SEPARATOR_COMMA);
         ifstream f(output_file);
         assert(f.good());
     }
@@ -137,7 +137,7 @@ static void show_usage(std::string name) {
         name = name.substr(name.rend() - itLastSlash);
     }
 
-    cout << "Usage: " << name << " <input file> <output file> --float|--int --space|--comma" << endl <<
+    cout << "Usage: " << name << " <input file> <output file> --double|--int --space|--comma" << endl <<
          "Example: " << name << " input1.csv output.csv --int --space" << endl;
 }
 
@@ -181,8 +181,8 @@ int main(int argc, char *argv[]) {
     }
 
     try {
-        if (data_type == "--float") {
-            run_processing<float>(input_file, output_file, separator);
+        if (data_type == "--double") {
+            run_processing<double>(input_file, output_file, separator);
         } else if (data_type == "--int") {
             run_processing<int>(input_file, output_file, separator);
         } else {
