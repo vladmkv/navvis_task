@@ -138,7 +138,7 @@ static void show_usage(std::string name) {
     }
 
     cout << "Usage: " << name << " <input file> <output file> --float|--int --space|--comma" << endl <<
-         "Example: input1.csv output.csv --int --space" << endl;
+         "Example: " << name << " input1.csv output.csv --int --space" << endl;
 }
 
 template<class T>
