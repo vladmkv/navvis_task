@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include <sstream>
+#include <algorithm>
 
 #include "matrix.h"
 #include "matrix_processor.h"
@@ -129,12 +130,12 @@ void run_tests() {
     cout << "Tests passed" << endl;
 }
 
-static void show_usage(std::string name) {
+static void show_usage(string name) {
     string slashes = "/\\";
-    auto itLastSlash = std::find_first_of(name.rbegin(), name.rend(), slashes.begin(), slashes.end());
+    auto itLastSlash = find_first_of(name.rbegin(), name.rend(), slashes.begin(), slashes.end());
 
     if (itLastSlash != name.rend()) {
-        name = name.substr(name.rend() - itLastSlash);
+        name = name.substr(static_cast<size_t>(name.rend() - itLastSlash));
     }
 
     cout << "Usage: " << name << " <input file> <output file> --double|--int --space|--comma" << endl <<
@@ -154,14 +155,19 @@ void run_processing(const string &input_file, const string &output_file, const c
 int main(int argc, char *argv[]) {
     if (argc < 3) {
         // Simple way to run unit tests
-        run_tests();
+        try {
+            run_tests();
+        }
+        catch (exception& e) {
+            cout << "Tests failed. " << e.what() << endl;
+        }
 
         show_usage(argv[0]);
         return 0;
     }
 
     vector<string> arguments;
-    std::transform(argv + 1, argv + argc, back_inserter(arguments),
+    transform(argv + 1, argv + argc, back_inserter(arguments),
                    [](const char *pstr) {
                        return string(pstr);
                    });
