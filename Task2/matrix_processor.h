@@ -12,7 +12,7 @@ namespace solution {
     class matrix_processor {
     private:
         // Interpolation value for out-of-boundary cells
-        const int INTERPOLATE_DEFAULT_VALUE = 10;
+        const int INTERPOLATE_DEFAULT_VALUE = 0;
 
         bool isZero(int x) {
             return x == 0;
@@ -44,6 +44,7 @@ namespace solution {
         }
 
     public:
+        // Sample processing function. Averages zero cell among sibling cells.
         template<class T>
         void process(matrix<T> &m) {
             for (int row = 0; row < m.getRows(); ++row) {

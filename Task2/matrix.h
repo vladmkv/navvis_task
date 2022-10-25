@@ -24,6 +24,9 @@ namespace solution {
 
         matrix() = default;
 
+        matrix(matrix && m) = default;
+
+        // Allows uniform initialization
         matrix(std::vector<row_type> &&rows) {
             std::swap(_elements, rows);
             _rows = _elements.size();

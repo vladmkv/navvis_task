@@ -6,6 +6,7 @@
 #define TASK2_MATRIX_IO_H
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 
 #include "matrix.h"
@@ -36,12 +37,15 @@ namespace solution {
         template<class T>
         std::istream &parseFromCsvStream(std::istream &is, matrix<T> &m, const char separator = DEFAULT_SEPARATOR) {
             m.resize(0, 0);
-
             int row = 0, column = 0;
 
             while (!is.eof()) {
                 std::string line;
                 std::getline(is, line);
+
+                if (!line.length()) {
+                    throw std::logic_error("Empty line");
+                }
 
                 std::vector<std::string> line_items;
                 std::istringstream iss_line(line);
@@ -96,6 +100,19 @@ namespace solution {
             return parseFromCsvStream(is, m);
         }
 
+        template<class T, char sep = ' '>
+        matrix<T> load(const std::string &file_name) {
+            std::ifstream file(file_name);
+            matrix<T> m;
+            parseFromCsvStream(file, m, sep);
+            return m;
+        }
+
+        template<class T, char sep = ' '>
+        void save(const std::string &file_name, const matrix<T> &m) {
+            std::ofstream file(file_name);
+            writeToCsvStream(file, m, sep);
+        }
     };
 
 } // solution

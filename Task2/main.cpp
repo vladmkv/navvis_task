@@ -28,7 +28,7 @@ void run_tests() {
     // Input/output
     {
         matrix<int> m2(std::move(vector<vector<int>>{{1, 2},
-                                                {3, 4}}));
+                                                     {3, 4}}));
         ostringstream oss;
         oss << m2;
         assert(oss.str() == "1 2\n3 4\n");
@@ -85,14 +85,31 @@ void run_tests() {
     }
 
     // Processing
+    matrix_processor p;
     {
-        matrix_processor p;
-        matrix<int> m_zeros(vector<vector<int>>{{0, 0},
-                                                {0, 0}});
-        p.process(m_zeros);
-        cout << endl << m_zeros << endl;
-        writeToCsvStream(cout, m_zeros, ',');
+        matrix<float> m({{0, 1},
+                         {1, 1}});
+        p.process(m);
+
+        // Expecting average of two adjacent cells (0 + 1) / 2 = 0.5
+        assert(m[0][0] == 0.5);
     }
+
+    // File I/O
+    {
+        auto m = load<int, ' '>("../input1.csv");
+        assert(m[1][1] == 0);
+
+        p.process(m);
+        assert(m[1][1] == 5);
+
+        auto output_file = "../output1.csv";
+        save(output_file, m);
+        ifstream f(output_file);
+        assert(f.good());
+    }
+
+    cout << "Tests passed" << endl;
 }
 
 int main() {
