@@ -4,13 +4,17 @@ Folder `Task1-CodeAnalysis` contains files with code review. My comments start w
 # Task 2
 Folder `Task2` contains source for CSV File task.
 
-Project can be built using CMake (tested on MacOS):
+## Building
+Project can be built using CMake (tested on MacOS and Windows):
 
 `cmake .`
 
 `cmake --build .`
 
-Executable is called Task2. There is a couple of sample `input*.csv` files.
+On Windows, also Visual Studio 2019 can be used to open folder `Task2` and choosing Build from Main menu.
+
+## Running
+Executable is called Task2. There is a couple of sample `input*.csv` files. For tests to properly pass, both sample inputs should be next to the executable.
 
 `Usage: Task2 <input file> <output file> --float|--int --space|--comma
 Example: Task2 input1.csv output.csv --int --space`
