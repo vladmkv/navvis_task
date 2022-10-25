@@ -183,8 +183,7 @@ int main(int argc, char *argv[]) {
     try {
         if (data_type == "--float") {
             run_processing<float>(input_file, output_file, separator);
-        }
-        if (data_type == "--int") {
+        } else if (data_type == "--int") {
             run_processing<int>(input_file, output_file, separator);
         } else {
             cout << "Unknown data type!" << endl;
