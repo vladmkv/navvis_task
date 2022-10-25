@@ -13,17 +13,17 @@
 namespace solution {
 
     namespace matrix_io {
-
-        const char SEPARATOR = ' ';
+        const char DEFAULT_SEPARATOR = ' ';
 
         template<class T>
-        std::ostream &operator<<(std::ostream &os, const matrix<T> &m) {
+        std::ostream &
+        writeToCsvStream(std::ostream &os, const matrix<T> &m, const char separator = DEFAULT_SEPARATOR) {
             for (int row = 0; row < m.getRows(); row++) {
                 for (int column = 0; column < m.getColumns(); column++) {
                     os << m[row][column];
 
                     if (column != m.getColumns() - 1) {
-                        os << SEPARATOR;
+                        os << separator;
                     }
                 }
 
@@ -34,7 +34,7 @@ namespace solution {
         }
 
         template<class T>
-        std::istream &operator>>(std::istream &is, matrix<T> &m) {
+        std::istream &parseFromCsvStream(std::istream &is, matrix<T> &m, const char separator = DEFAULT_SEPARATOR) {
             m.resize(0, 0);
 
             int row = 0, column = 0;
@@ -47,14 +47,14 @@ namespace solution {
                 std::istringstream iss_line(line);
                 while (!iss_line.eof()) {
                     std::string item;
-                    std::getline(iss_line, item, SEPARATOR);
+                    std::getline(iss_line, item, separator);
                     line_items.push_back(item);
                 }
 
                 // Parse individual strings to T
                 std::vector<T> current_row;
                 std::transform(line_items.begin(), line_items.end(), std::back_inserter(current_row),
-                               [](std::string s) {
+                               [](const std::string &s) {
                                    T value;
                                    std::istringstream iss(s);
                                    iss >> value;
@@ -83,6 +83,17 @@ namespace solution {
             }
 
             return is;
+        }
+
+        // Convenience operators overload for matrix I/O
+        template<class T>
+        std::ostream &operator<<(std::ostream &os, const matrix<T> &m) {
+            return writeToCsvStream<T>(os, m, DEFAULT_SEPARATOR);
+        }
+
+        template<class T>
+        std::istream &operator>>(std::istream &is, matrix<T> &m) {
+            return parseFromCsvStream(is, m);
         }
 
     };
