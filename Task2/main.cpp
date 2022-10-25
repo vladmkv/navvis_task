@@ -137,13 +137,12 @@ static void show_usage(std::string name) {
         name = name.substr(name.rend() - itLastSlash);
     }
 
-    cout << "Usage: " << name << " <input file> <output file> --float|--int [--comma]"
-              << endl;
+    cout << "Usage: " << name << " <input file> <output file> --float|--int --space|--comma" << endl <<
+         "Example: input1.csv output.csv --int --space" << endl;
 }
 
 template<class T>
-void run_processing(const string &input_file, const string &output_file, const char separator)
-{
+void run_processing(const string &input_file, const string &output_file, const char separator) {
     auto m = load<T>(input_file, separator);
 
     matrix_processor p;
@@ -167,8 +166,7 @@ int main(int argc, char *argv[]) {
                        return string(pstr);
                    });
 
-    if (arguments.size() < 3)
-    {
+    if (arguments.size() < 3) {
         cout << "Not enough arguments" << endl;
         return 0;
     }
@@ -178,28 +176,21 @@ int main(int argc, char *argv[]) {
     auto data_type = arguments[2];
     char separator = SEPARATOR_SPACE;
 
-    if (arguments.size() > 3 && arguments[3] == "--comma")
-    {
+    if (arguments.size() > 3 && arguments[3] == "--comma") {
         separator = SEPARATOR_COMMA;
     }
 
-    try
-    {
-        if (data_type == "--float")
-        {
+    try {
+        if (data_type == "--float") {
             run_processing<float>(input_file, output_file, separator);
         }
-        if (data_type == "--int")
-        {
+        if (data_type == "--int") {
             run_processing<int>(input_file, output_file, separator);
-        }
-        else
-        {
+        } else {
             cout << "Unknown data type!" << endl;
         }
     }
-    catch (exception & e)
-    {
+    catch (exception &e) {
         cout << "Error occurred. " << e.what() << endl;
     }
 
